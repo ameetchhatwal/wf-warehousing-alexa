@@ -27,8 +27,8 @@ var handlers = {
   },
   //Select City
   'WarehouseCityIntent': function () {
-    var whName = this.event.request.intent.slots.warehouseCity.value;
-    if(whName === 'Hebron' || whName === 'Erlanger' || whName === 'Cranbury'){
+    var whName = this.event.request.intent.slots.warehouseCity.value.toLowerCase();
+    if(whName === 'hebron' || whName === 'erlanger' || whName === 'cranbury'){
         this.attributes['warehouseCity'] = this.event.request.intent.slots.warehouseCity.value;
         this.response.speak("Welcome to "+ whName +" Warehouse. I can help you with quick information about warehouse operations. You can ask me questions like How is picking operation health? or Can I release orders? or What is happening at door 5?").listen("How can I help you today?");
     } else {
@@ -41,7 +41,7 @@ var handlers = {
     var doorNumber = this.event.request.intent.slots.doorNumber.value;
     const randomCarrier =  cookbook.getRandomItem(carriers);
     if(doorNumber <= 10){
-      this.response.speak('Door number '+ doorNumber + ' is receiving packages from '+ randomCarrier+ ' '+ FOLLOW_UP).listen(FOLLOW_UP);
+      this.response.speak('Door number '+ doorNumber + ' is receiving packages from '+ randomCarrier+ '. '+ FOLLOW_UP).listen(FOLLOW_UP);
       this.emit(':responseReady');
     } else {
       this.response.speak('Door number '+ doorNumber + ' is being loaded for shipping via '+ randomCarrier + ' and is scheduled to leave at 3:00 PM. '+FOLLOW_UP ).listen(FOLLOW_UP);
@@ -117,7 +117,7 @@ var handlers = {
   },
   // Fallback
   'AMAZON.FallbackIntent': function() {
-    this.response.speak('Sorry, something went wrong, I cannot help at the moment.');
+    this.response.speak('Sorry, I dont know how to help with that.');
     this.emit(':responseReady');
   },
 };
